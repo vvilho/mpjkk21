@@ -5,9 +5,9 @@ const MediaTable = ({picArray}) => {
   return (
     <table>
       <tbody>
-      {
-        picArray.map((item, index) => (<MediaRow key={index} file={item}/>))
-      }
+        {
+          picArray.map((item, index) => (<MediaRow key={index} file={item}/>))
+        }
 
       </tbody>
     </table>
