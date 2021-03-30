@@ -1,5 +1,18 @@
 import useSignUpForm from '../hooks/RegisterHooks';
 import {useUsers} from '../hooks/ApiHooks';
+import TextField from '@material-ui/core/TextField';
+import {makeStyles} from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+}));
 
 const RegisterForm = () => {
   const {register, getUserAvailable} = useUsers();
@@ -21,36 +34,52 @@ const RegisterForm = () => {
 
 
   // console.log('RegisterForm', inputs);
+  const classes = useStyles();
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
+    <form
+      className={classes.root}
+      noValidate autoComplete="off"
+      onSubmit={handleSubmit}
+    >
+      <TextField
         name="username"
         onChange={handleInputChange}
         value={inputs.username}
+        label="username"
       />
-      <input
+      <TextField
         name="password"
         type="password"
         onChange={handleInputChange}
         value={inputs.password}
+        label="password"
+
       />
 
-      <input
+      <TextField
         name="email"
         type="email"
         onChange={handleInputChange}
         value={inputs.email}
+        label="email"
+
       />
 
-      <input
+      <TextField
         name="full_name"
         onChange={handleInputChange}
         value={inputs.full_name}
+        label="full name"
+
       />
 
-      <button>Tallenna</button>
-    </form>
+      <Button
+        variant="contained"
+        type="submit"
+      >
+        Tallenna
+      </Button>    </form>
   );
 };
 

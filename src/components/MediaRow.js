@@ -1,21 +1,54 @@
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
 import {Link} from 'react-router-dom';
+import {makeStyles} from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+
+const useStyles = makeStyles({
+  root: {
+    maxWidth: '50vw',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginBottom: 20,
+
+  },
+  media: {
+    height: 100,
+    width: 100,
+  },
+});
+
 
 const MediaRow = ({file}) => {
+  const classes = useStyles();
+
   return (
-    <tr>
-      <td>
-        <img src={uploadsUrl + file.thumbnails.w160} alt={file.title} />
-      </td>
-      <td>
-        <h3>{file.title}</h3>
-        <p>{file.description}</p>
-      </td>
-      <td>
-        <Link to={{pathname: '/single/', state: file}}>View</Link>
-      </td>
-    </tr>
+    <Card gutterBottom className={classes.root}>
+      <CardMedia
+        className={classes.media}
+        image={uploadsUrl + file.thumbnails.w160} alt={file.title}
+        title={file.title}
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="h2">
+          {file.title}
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {file.description}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small" color="primary">
+          <Link to={{pathname: '/single/', state: file}}>View</Link>
+        </Button>
+      </CardActions>
+    </Card>
   );
 };
 

@@ -4,6 +4,19 @@ import {useContext} from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import {MediaContext} from '../contexts/MediaContext';
+import TextField from '@material-ui/core/TextField';
+import {makeStyles} from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+}));
 
 
 const LoginForm = ({history}) => {
@@ -26,22 +39,36 @@ const LoginForm = ({history}) => {
 
   console.log('LoginForm', inputs, user);
 
+  const classes = useStyles();
   return (
-    <form onSubmit={handleSubmit}>
-      <input
+    <form
+      className={classes.root}
+      noValidate
+      autoComplete="off"
+      onSubmit={handleSubmit}
+
+    >
+      <TextField
         name="username"
         onChange={handleInputChange}
         value={inputs.username}
+        label="username"
       />
-      <input
+      <TextField
         name="password"
         type="password"
         onChange={handleInputChange}
         value={inputs.password}
+        label="password"
       />
 
 
-      <button>Tallenna</button>
+      <Button
+        variant="contained"
+        type="submit"
+      >
+        Tallenna
+      </Button>
     </form>
   );
 };

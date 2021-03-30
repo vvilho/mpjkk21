@@ -4,8 +4,7 @@ import {
   Typography,
   Paper,
   Card,
-  makeStyles,
-  CardActionArea, CardMedia, CardContent,
+  makeStyles, CardMedia, CardContent,
 } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -35,18 +34,16 @@ const Single = ({location}) => {
       </Typography>
       <Paper elevation="3">
         <Card className={classes.root}>
-          <CardActionArea>
-            <CardMedia
-              className={classes.media}
-              image={uploadsUrl + file.filename}
-              title={file.title}
-            />
-            <CardContent>
-              <Typography gutterBottom>{file.description}</Typography>
-              <Typography variant="subtitle2">{file.user_id}</Typography>
+          <CardMedia
+            className={classes.media}
+            image={uploadsUrl + file.filename}
+            title={file.title}
+          />
+          <CardContent>
+            <Typography gutterBottom>{file.description}</Typography>
+            <Typography variant="subtitle2">{file.user_id}</Typography>
 
-            </CardContent>
-          </CardActionArea>
+          </CardContent>
         </Card>
 
       </Paper>
