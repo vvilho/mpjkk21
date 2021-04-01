@@ -4,18 +4,19 @@ import {makeStyles, Button} from '@material-ui/core';
 // import {useState} from 'react';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import {useEffect} from 'react';
+import PropTypes from 'prop-types';
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      width: '25ch',
+      maxWidth: '100%',
     },
   },
 }));
 
-const RegisterForm = () => {
+const RegisterForm = ({setToggle}) => {
   const {register, getUserAvailable} = useUsers();
   const validators = {
     username: ['required', 'minStringLength: 3', 'isAvailable'],
@@ -37,9 +38,14 @@ const RegisterForm = () => {
     try {
       console.log('register lomake lähtee');
       const available = await getUserAvailable(inputs.username);
-      console.log(available);
       if (available) {
-        register(inputs);
+        delete inputs.repeatPassword;
+        const result = await register(inputs);
+        console.log(result);
+        if (result.message.length > 0) {
+          alert(result.message);
+          setToggle(true);
+        }
       }
     } catch (e) {
       console.log(e.message);
@@ -131,6 +137,10 @@ const RegisterForm = () => {
         Rekisteröidy
       </Button>    </ValidatorForm>
   );
+};
+
+RegisterForm.propTypes ={
+  setToggle: PropTypes.func,
 };
 
 export default RegisterForm;
