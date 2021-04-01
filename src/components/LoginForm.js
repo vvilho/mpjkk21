@@ -4,9 +4,7 @@ import {useContext} from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import {MediaContext} from '../contexts/MediaContext';
-import TextField from '@material-ui/core/TextField';
-import {makeStyles} from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import {makeStyles, Button, TextField} from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -67,7 +65,7 @@ const LoginForm = ({history}) => {
         variant="contained"
         type="submit"
       >
-        Tallenna
+        Kirjaudu
       </Button>
     </form>
   );

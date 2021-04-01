@@ -1,8 +1,6 @@
 import useSignUpForm from '../hooks/RegisterHooks';
 import {useUsers} from '../hooks/ApiHooks';
-import TextField from '@material-ui/core/TextField';
-import {makeStyles} from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import {makeStyles, TextField, Button} from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -78,7 +76,7 @@ const RegisterForm = () => {
         variant="contained"
         type="submit"
       >
-        Tallenna
+        Rekisteröidy
       </Button>    </form>
   );
 };
