@@ -1,6 +1,9 @@
 import useSignUpForm from '../hooks/RegisterHooks';
 import {useUsers} from '../hooks/ApiHooks';
-import {makeStyles, TextField, Button} from '@material-ui/core';
+import {makeStyles, Button} from '@material-ui/core';
+// import {useState} from 'react';
+import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import {useEffect} from 'react';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -14,6 +17,21 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterForm = () => {
   const {register, getUserAvailable} = useUsers();
+  const validators = {
+    username: ['required', 'minStringLength: 3', 'isAvailable'],
+    password: ['required', 'minStringLength: 5'],
+    repeatPassword: ['required', 'isPasswordMatch'],
+    email: ['required', 'isEmail'],
+    full_name: ['required', 'isString'],
+  };
+
+  const errorMessages = {
+    username: ['vaadittu kenttä', 'vähintään 3 merkkiä', 'tunnus ei ole vapaa'],
+    password: ['vaadittu kenttä', 'vähintään 5 merkkiä'],
+    repeatPassword: ['vaadittu kenttä', 'salasanat ei täsmää'],
+    email: ['vaadittu kenttä', 'sähköposti väärää muotoa'],
+    full_name: ['vaadittu kenttä', 'vain kirjaimia nimeen'],
+  };
 
   const doRegister = async () => {
     try {
@@ -30,46 +48,80 @@ const RegisterForm = () => {
 
   const {inputs, handleInputChange, handleSubmit} = useSignUpForm(doRegister);
 
+  useEffect(() => {
+    ValidatorForm.addValidationRule('isAvailable', async (value) => {
+      if (value.length > 2) {
+        try {
+          const available = await getUserAvailable(value);
+          console.log('onks vapaana?', available);
+          return available;
+        } catch (e) {
+          console.log(e.message);
+          return true;
+        }
+      }
+    });
 
-  // console.log('RegisterForm', inputs);
+    ValidatorForm.addValidationRule('isPasswordMatch',
+        (value) => (value === inputs.password),
+    );
+  }, [inputs]);
+
+
+  console.log('RegisterForm', inputs);
   const classes = useStyles();
 
   return (
-    <form
+    <ValidatorForm
       className={classes.root}
       noValidate autoComplete="off"
       onSubmit={handleSubmit}
     >
-      <TextField
+      <TextValidator
         name="username"
         onChange={handleInputChange}
         value={inputs.username}
         label="username"
+        validators={validators.username}
+        errorMessages={errorMessages.username}
       />
-      <TextField
+
+      <TextValidator
         name="password"
         type="password"
         onChange={handleInputChange}
         value={inputs.password}
         label="password"
-
+        validators={validators.password}
+        errorMessages={errorMessages.password}
+      />
+      <TextValidator
+        name="repeatPassword"
+        type="password"
+        onChange={handleInputChange}
+        value={inputs.repeatPassword}
+        label="repeat password"
+        validators={validators.repeatPassword}
+        errorMessages={errorMessages.repeatPassword}
       />
 
-      <TextField
+      <TextValidator
         name="email"
         type="email"
         onChange={handleInputChange}
         value={inputs.email}
         label="email"
-
+        validators={validators.email}
+        errorMessages={errorMessages.email}
       />
 
-      <TextField
+      <TextValidator
         name="full_name"
         onChange={handleInputChange}
         value={inputs.full_name}
         label="full name"
-
+        validators={validators.full_name}
+        errorMessages={errorMessages.full_name}
       />
 
       <Button
@@ -77,7 +129,7 @@ const RegisterForm = () => {
         type="submit"
       >
         Rekisteröidy
-      </Button>    </form>
+      </Button>    </ValidatorForm>
   );
 };
 
