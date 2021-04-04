@@ -1,6 +1,6 @@
 import useSignUpForm from '../hooks/RegisterHooks';
 import {useUsers} from '../hooks/ApiHooks';
-import {makeStyles, Button} from '@material-ui/core';
+import {makeStyles, Button, Grid} from '@material-ui/core';
 // import {useState} from 'react';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import {useEffect} from 'react';
@@ -11,8 +11,18 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      maxWidth: '100%',
+      Width: '100%',
     },
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  button: {
+    marginTop: 25,
+  },
+  TextValidator: {
+    width: '100%',
   },
 }));
 
@@ -74,68 +84,78 @@ const RegisterForm = ({setToggle}) => {
   }, [inputs]);
 
 
-  console.log('RegisterForm', inputs);
   const classes = useStyles();
 
   return (
     <ValidatorForm
-      className={classes.root}
-      noValidate autoComplete="off"
+      noValidate
+      autoComplete="new-password"
       onSubmit={handleSubmit}
+
     >
-      <TextValidator
-        name="username"
-        onChange={handleInputChange}
-        value={inputs.username}
-        label="username"
-        validators={validators.username}
-        errorMessages={errorMessages.username}
-      />
+      <Grid className={classes.form}>
+        <TextValidator
+          className={classes.TextValidator}
+          name="username"
+          label="username"
+          onChange={handleInputChange}
+          value={inputs.username}
+          validators={validators.username}
+          errorMessages={errorMessages.username}
+        />
 
-      <TextValidator
-        name="password"
-        type="password"
-        onChange={handleInputChange}
-        value={inputs.password}
-        label="password"
-        validators={validators.password}
-        errorMessages={errorMessages.password}
-      />
-      <TextValidator
-        name="repeatPassword"
-        type="password"
-        onChange={handleInputChange}
-        value={inputs.repeatPassword}
-        label="repeat password"
-        validators={validators.repeatPassword}
-        errorMessages={errorMessages.repeatPassword}
-      />
+        <TextValidator
+          className={classes.TextValidator}
+          name="password"
+          type="password"
+          label="password"
+          onChange={handleInputChange}
+          value={inputs.password}
+          validators={validators.password}
+          errorMessages={errorMessages.password}
+        />
+        <TextValidator
+          className={classes.TextValidator}
+          name="repeatPassword"
+          type="password"
+          label="repeat password"
+          onChange={handleInputChange}
+          value={inputs.repeatPassword}
+          validators={validators.repeatPassword}
+          errorMessages={errorMessages.repeatPassword}
+        />
 
-      <TextValidator
-        name="email"
-        type="email"
-        onChange={handleInputChange}
-        value={inputs.email}
-        label="email"
-        validators={validators.email}
-        errorMessages={errorMessages.email}
-      />
+        <TextValidator
+          className={classes.TextValidator}
+          name="email"
+          type="email"
+          label="email"
+          placeholder="email@email.com"
+          onChange={handleInputChange}
+          value={inputs.email}
+          validators={validators.email}
+          errorMessages={errorMessages.email}
+        />
 
-      <TextValidator
-        name="full_name"
-        onChange={handleInputChange}
-        value={inputs.full_name}
-        label="full name"
-        validators={validators.full_name}
-        errorMessages={errorMessages.full_name}
-      />
+        <TextValidator
+          className={classes.TextValidator}
+          name="full_name"
+          label="full name"
+          onChange={handleInputChange}
+          value={inputs.full_name}
+          validators={validators.full_name}
+          errorMessages={errorMessages.full_name}
+        />
 
-      <Button
-        variant="contained"
-        type="submit"
-      >
-        Rekisteröidy
-      </Button>    </ValidatorForm>
+        <Button
+          variant="contained"
+          type="submit"
+          className={classes.button}
+        >
+          Rekisteröidy
+        </Button>
+      </Grid>
+    </ValidatorForm>
   );
 };
 

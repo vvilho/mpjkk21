@@ -14,6 +14,15 @@ const useStyles = makeStyles((theme) => ({
       maxWidth: '100%',
     },
   },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: '100%',
+
+  },
+  button: {
+    marginTop: 25,
+  },
 }));
 
 
@@ -40,7 +49,7 @@ const LoginForm = ({history}) => {
   const classes = useStyles();
   return (
     <form
-      className={classes.root}
+      className={classes.form}
       noValidate
       autoComplete="off"
       onSubmit={handleSubmit}
@@ -64,6 +73,7 @@ const LoginForm = ({history}) => {
       <Button
         variant="contained"
         type="submit"
+        className={classes.button}
       >
         Kirjaudu
       </Button>

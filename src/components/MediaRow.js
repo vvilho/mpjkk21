@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
 import {Link} from 'react-router-dom';
@@ -12,9 +13,7 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles({
   root: {
     maxWidth: '50vw',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    margin: 'auto',
     marginBottom: 20,
 
   },
@@ -32,7 +31,7 @@ const MediaRow = ({file}) => {
     <Card gutterBottom className={classes.root}>
       <CardMedia
         className={classes.media}
-        image={uploadsUrl + file.thumbnails.w160} alt={file.title}
+        image={file.thumbnails ? uploadsUrl + file.thumbnails.w160: '#'} alt={file.title}
         title={file.title}
       />
       <CardContent>
