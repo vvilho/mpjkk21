@@ -16,7 +16,7 @@ const Logout = ({history}) => {
 
   return (
     <>
-      <Redirect to={'/'} />
+      <Redirect to={'/login'} />
     </>
   );
 };

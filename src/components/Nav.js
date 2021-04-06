@@ -44,7 +44,7 @@ const Nav = ({history}) => {
         setUser(userData);
       } catch (e) {
         // send to login
-        history.push('/');
+        history.push('/login');
       }
     };
     checkUser();
@@ -106,9 +106,11 @@ const Nav = ({history}) => {
                 <Paper>
                   <ClickAwayListener onClickAway={handleClose}>
                     <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                      <MenuItem onClick={handleClose}><Link className={classes.link} to="/home">Home</Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link className={classes.link} to="/">Home</Link></MenuItem>
                       <MenuItem onClick={handleClose}><Link className={classes.link} to="/profile">Profile</Link></MenuItem>
                       <MenuItem onClick={handleClose}><Link className={classes.link} to="/logout">Logout</Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link className={classes.link} to="/upload">Upload</Link></MenuItem>
+
                     </MenuList>
                   </ClickAwayListener>
                 </Paper>

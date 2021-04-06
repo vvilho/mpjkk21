@@ -7,6 +7,7 @@ import Login from './views/Login';
 import Logout from './views/Logout';
 import {MediaProvider} from './contexts/MediaContext';
 import {Container, Paper} from '@material-ui/core';
+import Upload from './views/Upload';
 
 const App = () => {
   return (
@@ -23,11 +24,12 @@ const App = () => {
               backgroundColor: 'white',
             }}>
               <Switch>
-                <Route path="/" exact component={Login}/>
-                <Route path="/home" component={Home}/>
+                <Route path="/" exact component={Home}/>
+                <Route path="/login" component={Login}/>
                 <Route path="/profile" component={Profile}/>
                 <Route path="/single" component={Single}/>
                 <Route path="/logout" component={Logout}/>
+                <Route path="/upload" component={Upload}/>
               </Switch>
             </main>
           </Paper>

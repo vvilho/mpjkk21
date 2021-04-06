@@ -1,16 +1,20 @@
 import {useContext} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
+import {Typography} from '@material-ui/core';
 
 const Profile = () => {
   const [user] = useContext(MediaContext);
 
   return (
     <>
-      <h1
-        style={{
-          textAlign: 'center',
-        }}
-      >Profile</h1>
+      <Typography
+        component='h1'
+        variant='h2'
+        align={'center'}
+        gutterBottom
+      >
+        Profile
+      </Typography>
       {user &&
       <div>
         <p>{user.full_name}</p>
