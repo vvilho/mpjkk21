@@ -6,6 +6,9 @@ import {
   Card,
   makeStyles, CardMedia, CardContent,
 } from '@material-ui/core';
+import {useUsers} from '../hooks/ApiHooks';
+import {useEffect, useState} from 'react';
+import BackButton from '../components/BackButton';
 
 const useStyles = makeStyles({
   root: {
@@ -17,14 +20,28 @@ const useStyles = makeStyles({
 });
 
 const Single = ({location}) => {
+  const [owner, setOwner] = useState(null);
   const classes = useStyles();
   console.log('match', location.state);
+
+  const {getUserById} = useUsers();
+
   const file = location.state;
   console.log(uploadsUrl + file.filename);
+
+  const desc = JSON.parse(file.description);
+
+
+  useEffect(() => {
+    (async ()=>{
+      setOwner(await getUserById(localStorage.getItem('token'), file.user_id));
+    })();
+  }, []);
 
 
   return (
     <>
+      <BackButton />
       <Typography
         component="h1"
         variant="h2"
@@ -38,10 +55,19 @@ const Single = ({location}) => {
             className={classes.media}
             image={uploadsUrl + file.filename}
             title={file.title}
+            style={{
+              filter: `
+                    brightness(${desc.filters.brightness}%)
+                    contrast(${desc.filters.contrast}%)
+                    saturate(${desc.filters.saturate}%)
+                    sepia(${desc.filters.sepia}%)
+                    `,
+
+            }}
           />
           <CardContent>
-            <Typography gutterBottom>{file.description}</Typography>
-            <Typography variant="subtitle2">{file.user_id}</Typography>
+            <Typography gutterBottom>{desc.description}</Typography>
+            <Typography variant="subtitle2">{owner?.username}</Typography>
 
           </CardContent>
         </Card>

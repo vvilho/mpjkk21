@@ -25,7 +25,11 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: 'none',
     color: 'black',
-
+  },
+  menuList: {
+    backgroundColor: 'white',
+    position: 'relative',
+    zIndex: 7,
   },
 }));
 
@@ -40,7 +44,6 @@ const Nav = ({history}) => {
       try {
         const token = localStorage.getItem('token');
         const userData = await getUser(token);
-        console.log(user);
         setUser(userData);
       } catch (e) {
         // send to login
@@ -105,7 +108,12 @@ const Nav = ({history}) => {
               >
                 <Paper>
                   <ClickAwayListener onClickAway={handleClose}>
-                    <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                    <MenuList
+                      autoFocusItem={open}
+                      id="menu-list-grow"
+                      onKeyDown={handleListKeyDown}
+                      className={classes.menuList}
+                    >
                       <MenuItem onClick={handleClose}><Link className={classes.link} to="/">Home</Link></MenuItem>
                       <MenuItem onClick={handleClose}><Link className={classes.link} to="/profile">Profile</Link></MenuItem>
                       <MenuItem onClick={handleClose}><Link className={classes.link} to="/logout">Logout</Link></MenuItem>

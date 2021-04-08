@@ -1,28 +1,49 @@
 import useUploadForm from '../hooks/UploadHooks';
-import {useMedia} from '../hooks/ApiHooks';
+import {useMedia, useTag} from '../hooks/ApiHooks';
 import {
   Button,
   CircularProgress,
-  Grid,
+  Grid, Slider,
   Typography,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import {useEffect} from 'react';
+import useSlider from '../hooks/SliderHooks';
+import BackButton from '../components/BackButton';
 
 
 const Upload = ({history}) => {
   const {postMedia, loading} = useMedia();
+  const {postTag} = useTag();
+
+  const validators = {
+    title: ['required', 'minStringLength: 3'],
+    description: ['minStringLength: 5'],
+
+  };
+
+  const errorMessages = {
+    title: ['vaadittu kenttä', 'minimissään 3 merkkiä'],
+    description: ['minimissän 5 merkkiä'],
+
+  };
 
   const doUpload = async () => {
     try {
       const fd = new FormData();
       fd.append('title', inputs.title);
-      fd.append('description', inputs.description);
+      // kuvaus + filtterit tallennetaan descriptioniin
+      const desc = {
+        description: inputs.description,
+        filters: sliderInputs,
+      };
+      fd.append('description', JSON.stringify(desc));
       fd.append('file', inputs.file);
       const token = localStorage.getItem('token');
       const result = await postMedia(fd, token);
-      console.log(result);
+      const tagResult = await postTag(token, result.file_id);
+      console.log(result, tagResult);
     } catch (e) {
       console.log(e.message);
     } finally {
@@ -35,6 +56,14 @@ const Upload = ({history}) => {
       description: '',
       file: null,
     });
+
+  const [sliderInputs, handleSliderChange] = useSlider({
+    brightness: 100,
+    contrast: 100,
+    saturate: 100,
+    sepia: 0,
+  });
+
 
   useEffect(()=>{
     const reader = new FileReader();
@@ -54,40 +83,43 @@ const Upload = ({history}) => {
         }));
       }
     }
-  }, [inputs]);
+  }, [inputs.file]);
+
+  console.log(inputs, sliderInputs);
 
 
   return (
-    <Grid
-      container
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        width: '100%',
-      }}
-    >
-      <Grid item xs={12}>
-        <Typography
-          component='h1'
-          variant='h2'
-          align={'center'}
-          gutterBottom
-        >
+    <>
+      <BackButton />
+      <Grid
+        container
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          width: '100%',
+        }}
+      >
+
+
+        <Grid item xs={12}>
+          <Typography
+            component='h1'
+            variant='h2'
+            align={'center'}
+            gutterBottom
+          >
           Upload
-        </Typography>
-      </Grid>
-      {inputs.dataUrl?.length > 0 &&
-      <Grid item xs={12}>
-        <img src={inputs.dataUrl}/>
-      </Grid>
-      }
-      {!loading ?
+          </Typography>
+        </Grid>
+
+        {!loading ?
       <ValidatorForm
         onSubmit={handleSubmit}
         style={{
           display: 'flex',
           justifyContent: 'center',
         }}
+
       >
         <Grid container
 
@@ -103,7 +135,9 @@ const Upload = ({history}) => {
               label='Title'
               value={inputs.title}
               onChange={handleInputChange}
-              required
+              validators={validators.title}
+              errorMessages={errorMessages.title}
+
             />
           </Grid>
           <Grid
@@ -116,6 +150,8 @@ const Upload = ({history}) => {
               label='Description'
               value={inputs.description}
               onChange={handleInputChange}
+              validators={validators.description}
+              errorMessages={errorMessages.description}
             />
           </Grid>
 
@@ -132,6 +168,7 @@ const Upload = ({history}) => {
               onChange={handleFileChange}
               required
 
+
             />
           </Grid>
 
@@ -143,12 +180,92 @@ const Upload = ({history}) => {
               fullWidth
             >Lähetä</Button>
           </Grid>
-        </Grid>
+          {inputs.dataUrl?.length > 0 &&
+            <>
+              <Grid
+                item
+                xs={12}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
 
+              >
+                <img
+                  src={inputs.dataUrl}
+                  style={{
+                    filter: `
+                    brightness(${sliderInputs.brightness}%)
+                    contrast(${sliderInputs.contrast}%)
+                    saturate(${sliderInputs.saturate}%)
+                    sepia(${sliderInputs.sepia}%)
+
+                    `,
+                    width: 300,
+                    margin: 'auto',
+
+
+                  }}
+                />
+              </Grid>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Typography>Brightness</Typography>
+                  <Slider
+                    min={0}
+                    max={200}
+                    step={1}
+                    name='brightness'
+                    value={sliderInputs?.brightness}
+                    valueLabelDisplay='on'
+                    onChange={handleSliderChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography>Contrast</Typography>
+                  <Slider
+                    min={0}
+                    max={200}
+                    step={1}
+                    name='contrast'
+                    value={sliderInputs?.contrast}
+                    valueLabelDisplay='on'
+                    onChange={handleSliderChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography>Saturation</Typography>
+                  <Slider
+                    min={0}
+                    max={200}
+                    step={1}
+                    name='saturate'
+                    value={sliderInputs?.saturate}
+                    valueLabelDisplay='on'
+                    onChange={handleSliderChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography>Sepia</Typography>
+                  <Slider
+                    min={0}
+                    max={100}
+                    step={1}
+                    name='sepia'
+                    value={sliderInputs?.sepia}
+                    valueLabelDisplay='on'
+                    onChange={handleSliderChange}
+                  />
+                </Grid>
+              </Grid>
+            </>
+          }
+        </Grid>
       </ValidatorForm>:
       <CircularProgress></CircularProgress>
-      }
-    </Grid>
+        }
+      </Grid>
+    </>
   );
 };
 

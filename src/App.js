@@ -20,7 +20,7 @@ const App = () => {
             }}
           >
             <main style={{
-              marginTop: 80,
+              marginTop: 160,
               backgroundColor: 'white',
             }}>
               <Switch>

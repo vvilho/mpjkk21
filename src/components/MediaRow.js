@@ -28,14 +28,14 @@ const MediaRow = ({file}) => {
   const classes = useStyles();
 
   return (
-    <Card gutterBottom className={classes.root}>
+    <Card className={classes.root}>
       <CardMedia
         className={classes.media}
         image={file.thumbnails ? uploadsUrl + file.thumbnails.w160: '#'} alt={file.title}
         title={file.title}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
+        <Typography variant="h5" component="h2">
           {file.title}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
