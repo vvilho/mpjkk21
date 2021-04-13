@@ -26,7 +26,6 @@ const useStyles = makeStyles({
 
 const MediaRow = ({file}) => {
   const classes = useStyles();
-
   return (
     <Card className={classes.root}>
       <CardMedia
