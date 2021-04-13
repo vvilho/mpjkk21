@@ -1,20 +1,22 @@
 import React from 'react';
 import MediaTable from '../components/MediaTable';
 import {Typography} from '@material-ui/core';
+import BackButton from '../components/BackButton';
 
-const Home = () => {
+const MyFiles = () => {
   return (
     <>
+      <BackButton />
       <Typography
         component='h1'
         variant='h2'
         align={'center'}
         gutterBottom
-      >Home
+      >My Files
       </Typography>
-      <MediaTable ownFiles={false}/>
+      <MediaTable ownFiles={true}/>
     </>
   );
 };
 
-export default Home;
+export default MyFiles;

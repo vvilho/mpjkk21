@@ -2,10 +2,11 @@ import MediaRow from './MediaRow';
 import {useAllMedia} from '../hooks/ApiHooks';
 import {Container} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
 
-const MediaTable = () => {
-  const picArray = useAllMedia();
+const MediaTable = ({ownFiles}) => {
+  const picArray = useAllMedia(ownFiles);
 
   const useStyles = makeStyles({
     root: {
@@ -19,7 +20,8 @@ const MediaTable = () => {
     <Container className={classes.root}>
 
       {
-        picArray.map((item, index) => (<MediaRow key={index} file={item}/>))
+        picArray.map((item, index) =>
+          (<MediaRow key={index} file={item} ownFiles={ownFiles}/>))
       }
 
 
@@ -27,5 +29,9 @@ const MediaTable = () => {
   );
 };
 
+
+MediaTable.propTypes = {
+  ownFiles: PropTypes.bool,
+};
 
 export default MediaTable;

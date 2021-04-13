@@ -8,6 +8,8 @@ import Logout from './views/Logout';
 import {MediaProvider} from './contexts/MediaContext';
 import {Container, Paper} from '@material-ui/core';
 import Upload from './views/Upload';
+import MyFiles from './views/MyFiles';
+import Modify from './views/Modify';
 
 const App = () => {
   return (
@@ -30,6 +32,10 @@ const App = () => {
                 <Route path="/single" component={Single}/>
                 <Route path="/logout" component={Logout}/>
                 <Route path="/upload" component={Upload}/>
+                <Route path="/myfiles" component={MyFiles}/>
+                <Route path="/modify" component={Modify}/>
+
+
               </Switch>
             </main>
           </Paper>

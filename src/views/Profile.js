@@ -1,7 +1,9 @@
 import {useContext} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
-import {Typography} from '@material-ui/core';
+import {Typography, Button} from '@material-ui/core';
 import BackButton from '../components/BackButton';
+import {Link} from 'react-router-dom';
+
 
 const Profile = () => {
   const [user] = useContext(MediaContext);
@@ -23,6 +25,11 @@ const Profile = () => {
         <p>{user.full_name}</p>
         <p>{user.email}</p>
         <p>{user.username}</p>
+        <Button
+          component={Link}
+          to={{pathname: '/myfiles/'}}
+          variant={'contained'}
+        >My files</Button>
       </div>
       }
     </>
