@@ -9,7 +9,7 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [https://users.metropolia.fi/~vilhov/react-project/build8/](https://users.metropolia.fi/~vilhov/react-project/build8) to view it in the browser.
+Open [https://users.metropolia.fi/~vilhov/react-project/build9/](https://users.metropolia.fi/~vilhov/react-project/build9) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
