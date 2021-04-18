@@ -1,10 +1,10 @@
 import useLoginForm from '../hooks/LoginHooks';
 import {useLogin} from '../hooks/ApiHooks';
-import {useContext} from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import {MediaContext} from '../contexts/MediaContext';
-import {makeStyles, Button, TextField} from '@material-ui/core';
+import {makeStyles, Button, TextField, Typography} from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -55,6 +55,13 @@ const LoginForm = ({history}) => {
       onSubmit={handleSubmit}
 
     >
+      <Typography
+        component='h1'
+        variant='h2'
+        align={'center'}
+        gutterBottom
+      >Login
+      </Typography>
       <TextField
         name="username"
         onChange={handleInputChange}

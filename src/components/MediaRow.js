@@ -31,7 +31,6 @@ const MediaRow = ({file, ownFiles, history}) => {
   const {deleteMedia} = useMedia();
 
   const desc = JSON.parse(file.description);
-  console.log(typeof(ownFiles));
 
   return (
     <Card className={classes.root}>
@@ -48,7 +47,6 @@ const MediaRow = ({file, ownFiles, history}) => {
                     sepia(${desc.filters.sepia}%)
                     `,
         }}
-
       />
       <CardContent>
         <Typography variant="h5" component="h2">

@@ -3,7 +3,7 @@ import {useUsers} from '../hooks/ApiHooks';
 import {makeStyles, Button, Grid, Typography} from '@material-ui/core';
 // import {useState} from 'react';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import PropTypes from 'prop-types';
 
 
@@ -26,64 +26,41 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RegisterForm = ({setToggle}) => {
-  const {register, getUserAvailable} = useUsers();
+const ProfileForm = ({user}) => {
+  const {putUser} = useUsers();
   const validators = {
-    username: ['required', 'minStringLength: 3', 'isAvailable'],
-    password: ['required', 'minStringLength: 5'],
-    repeatPassword: ['required', 'isPasswordMatch'],
+    repeatPassword: ['isPasswordMatch'],
     email: ['required', 'isEmail'],
-    full_name: ['required', 'isString'],
+    full_name: ['isString'],
   };
 
   const errorMessages = {
-    username: ['vaadittu kenttä', 'vähintään 3 merkkiä', 'tunnus ei ole vapaa'],
-    password: ['vaadittu kenttä', 'vähintään 5 merkkiä'],
-    repeatPassword: ['vaadittu kenttä', 'salasanat ei täsmää'],
+    repeatPassword: ['salasanat ei täsmää'],
     email: ['vaadittu kenttä', 'sähköposti väärää muotoa'],
-    full_name: ['vaadittu kenttä', 'vain kirjaimia nimeen'],
+    full_name: ['vain kirjaimia nimeen'],
   };
 
   const doRegister = async () => {
     try {
-      console.log('register lomake lähtee');
-      const available = await getUserAvailable(inputs.username);
-      if (available) {
-        delete inputs.repeatPassword;
-        const result = await register(inputs);
-        console.log(result);
-        if (result.message.length > 0) {
-          alert(result.message);
-          setToggle(true);
-        }
+      console.log('user muokkaus lomake lähtee');
+
+
+      delete inputs.repeatPassword;
+      const result = await putUser(inputs, localStorage.getItem('token'));
+      console.log(result);
+
+      if (result.message.length > 0) {
+        alert(result.message);
       }
     } catch (e) {
       console.log(e.message);
     }
   };
 
-  const {inputs, handleInputChange, handleSubmit} = useSignUpForm(doRegister, {
-    username: '',
-    password: '',
-    repeatPassword: '',
-    email: '',
-    full_name: '',
-  });
+  const {inputs, handleInputChange, handleSubmit} =
+    useSignUpForm(doRegister, user);
 
   useEffect(() => {
-    ValidatorForm.addValidationRule('isAvailable', async (value) => {
-      if (value.length > 2) {
-        try {
-          const available = await getUserAvailable(value);
-          console.log('onks vapaana?', available);
-          return available;
-        } catch (e) {
-          console.log(e.message);
-          return true;
-        }
-      }
-    });
-
     ValidatorForm.addValidationRule('isPasswordMatch',
         (value) => (value === inputs.password),
     );
@@ -99,31 +76,22 @@ const RegisterForm = ({setToggle}) => {
       onSubmit={handleSubmit}
 
     >
-      <Grid className={classes.form}>
-        <Typography
-          component='h1'
-          variant='h2'
-          align={'center'}
-          gutterBottom
-        >Register
-        </Typography>
-        <TextValidator
-          className={classes.TextValidator}
-          name="username"
-          label="username"
-          onChange={handleInputChange}
-          value={inputs.username}
-          validators={validators.username}
-          errorMessages={errorMessages.username}
-        />
+      <Typography
+        component={'h1'}
+        variant={'h4'}
+        gutterBottom
+        align={'center'}
 
+      >
+        Change user info
+      </Typography>
+      <Grid className={classes.form}>
         <TextValidator
           className={classes.TextValidator}
           name="password"
           type="password"
           label="password"
           onChange={handleInputChange}
-          value={inputs.password}
           validators={validators.password}
           errorMessages={errorMessages.password}
         />
@@ -133,7 +101,6 @@ const RegisterForm = ({setToggle}) => {
           type="password"
           label="repeat password"
           onChange={handleInputChange}
-          value={inputs.repeatPassword}
           validators={validators.repeatPassword}
           errorMessages={errorMessages.repeatPassword}
         />
@@ -145,7 +112,7 @@ const RegisterForm = ({setToggle}) => {
           label="email"
           placeholder="email@email.com"
           onChange={handleInputChange}
-          value={inputs.email}
+          value={inputs?.email}
           validators={validators.email}
           errorMessages={errorMessages.email}
         />
@@ -155,7 +122,7 @@ const RegisterForm = ({setToggle}) => {
           name="full_name"
           label="full name"
           onChange={handleInputChange}
-          value={inputs.full_name}
+          value={inputs?.full_name}
           validators={validators.full_name}
           errorMessages={errorMessages.full_name}
         />
@@ -165,15 +132,15 @@ const RegisterForm = ({setToggle}) => {
           type="submit"
           className={classes.button}
         >
-          Rekisteröidy
+          Save new data
         </Button>
       </Grid>
     </ValidatorForm>
   );
 };
 
-RegisterForm.propTypes ={
-  setToggle: PropTypes.func,
+ProfileForm.propTypes ={
+  user: PropTypes.object,
 };
 
-export default RegisterForm;
+export default ProfileForm;

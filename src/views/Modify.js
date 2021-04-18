@@ -129,15 +129,6 @@ const Modify = ({history, location}) => {
               </Grid>
 
 
-              <Grid container item>
-                <Button
-                  type='submit'
-                  color='primary'
-                  variant='contained'
-                  fullWidth
-                >Lähetä</Button>
-              </Grid>
-
               <>
                 <Grid
                   item
@@ -216,7 +207,16 @@ const Modify = ({history, location}) => {
                   </Grid>
                 </Grid>
               </>
+              <Grid container item>
+                <Button
+                  type='submit'
+                  color='primary'
+                  variant='contained'
+                  fullWidth
+                >Lähetä</Button>
+              </Grid>
             </Grid>
+
           </ValidatorForm>:
           <CircularProgress></CircularProgress>
         }
